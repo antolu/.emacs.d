@@ -55,6 +55,7 @@ There are two things you can do about this warning:
   (set-variable 'ycmd-global-config my:ycmd-global-config)
   (global-ycmd-mode)
   (setq ycmd-force-semantic-completion t)
+  (setq request-backend (quote url-retrieve))
   (use-package company
     :config
     (global-company-mode)
@@ -78,6 +79,15 @@ There are two things you can do about this warning:
   (elpy-enable)
 )
 
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -91,3 +101,8 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+
+(add-hook 'c++-mode-hook
+          (lambda () (setq flycheck-clang-include-path
+                           (list (expand-file-name "/opt/cxxtest/")))))
+
