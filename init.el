@@ -1,7 +1,8 @@
 (defvar my:ycmd-server-command '("python" "/home/anton/.ycmd/ycmd"))
 (defvar my:ycmd-extra-conf-whitelist '("/home/anton/.ycmd/.ycm_extra_conf.py"))
 (defvar my:ycmd-global-config "/home/anton/.ycmd/.ycm_extra_conf.py")
-
+(defvar my:wakatime-api-key "73e20bd3-43b3-4b66-a844-6eadc178f039")
+(defvar my:wakatime-cli-path "/home/anton/.anaconda3/lib/python3.7/site-packages/wakatime/cli.py")
 
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -26,6 +27,13 @@ There are two things you can do about this warning:
 (setq use-package-always-ensure t)
 
 
+(use-package wakatime-mode
+  :config
+  (global-wakatime-mode)
+  (set-variable 'wakatime-api-key my:wakatime-api-key)
+  (set-variable 'wakatime-cli-path my:wakatime-cli-path)
+)
+
 (use-package magit
   :config
   (global-set-key (kbd "C-x g") 'magit-status)
@@ -41,28 +49,25 @@ There are two things you can do about this warning:
   :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
   )
 
-(use-package company
-  :config
-  (global-company-mode)
-  (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-  (setq company-idle-delay 0)
-  )
-
 (use-package ycmd
-  :init
-  (add-hook 'after-init-hook #'global-ycmd-mode)
   :config
   (set-variable 'ycmd-server-command my:ycmd-server-command)
-  (set-variable 'ycmd-extra-conf-whitelist my:ycmd-extra-conf-whitelist)
   (set-variable 'ycmd-global-config my:ycmd-global-config)
+  (global-ycmd-mode)
   (setq ycmd-force-semantic-completion t)
+  (use-package company
+    :config
+    (global-company-mode)
+    (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
+    (setq company-idle-delay 0)
+  )
   (use-package company-ycmd
     :config
     (company-ycmd-setup)
     )
   (use-package flycheck-ycmd
     :init
-    (add-hook 'c-mode-common-hook 'flyckeck-ycmd-setup)
+    (add-hook 'c-mode-common-hook 'flycheck-ycmd-setup)
     )
   (require 'ycmd-eldoc)
   (add-hook 'ycmd-mode-hook 'ycmd-eldoc-setup)
