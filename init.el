@@ -1,8 +1,8 @@
-(defvar my:ycmd-server-command '("python" "/home/anton/.ycmd/ycmd"))
-(defvar my:ycmd-extra-conf-whitelist '("/home/anton/.ycmd/.ycm_extra_conf.py"))
-(defvar my:ycmd-global-config "/home/anton/.ycmd/.ycm_extra_conf.py")
+(defvar my:ycmd-server-command '("python" "~/.ycmd/ycmd"))
+(defvar my:ycmd-extra-conf-whitelist '(expand-file-name "~/.ycmd/.ycm_extra_conf.py"))
+(defvar my:ycmd-global-config (expand-file-name "~/.ycmd/.ycm_extra_conf.py"))
 (defvar my:wakatime-api-key "73e20bd3-43b3-4b66-a844-6eadc178f039")
-(defvar my:wakatime-cli-path "/home/anton/.anaconda3/lib/python3.7/site-packages/wakatime/cli.py")
+(defvar my:wakatime-cli-path (expand-file-name "~/.anaconda3/lib/python3.7/site-packages/wakatime/cli.py"))
 
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
@@ -94,7 +94,7 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-enabled-themes (quote (leuven)))
- '(package-selected-packages (quote (flycheck use-package magit))))
+ '(package-selected-packages (quote (flycheck use-package magit)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
