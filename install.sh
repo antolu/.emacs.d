@@ -1,14 +1,17 @@
 #!/bin/sh
 
-git clone https://github.com/ycm-core/ycmd.git ~/.ycmd
-cd ~/.ycmd
+git clone https://github.com/antolu/.emacs.d.git ~/.emacs.d
+
+git clone https://github.com/ycm-core/ycmd.git ~/.emacs.d/ycmd
+cd ~/.emacs.d/ycmd
 git submodule update --init --recursive
 
 sudo pacman -Sy --needed go jdk-openjdk
 python3 build.py --clang-completer --java-completer --go-completer
 
-pip install jedi flake8 autopep8 black yapf
+pip install jedi flake8 autopep8 black yapf wakatime
 
-cd
+WAKATIME_CLI=`sudo find / -name cli.py | grep wakatime`
 
-git clone https://github.com/antolu/.emacs.d.git ~/.emacs.d
+sed -i "s/WAKATIME_CLI/$WAKATIME_CLI/" ~/.emacs.d/init.el
+

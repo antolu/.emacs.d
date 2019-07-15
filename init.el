@@ -1,8 +1,8 @@
-(defvar my:ycmd-server-command '("python" "~/.ycmd/ycmd"))
-(defvar my:ycmd-extra-conf-whitelist '(expand-file-name "~/.ycmd/.ycm_extra_conf.py"))
-(defvar my:ycmd-global-config (expand-file-name "~/.ycmd/.ycm_extra_conf.py"))
+(defvar my:ycmd-server-command '("python" "~/.emacs.d/ycmd/ycmd"))
+(defvar my:ycmd-extra-conf-whitelist '(expand-file-name "~/.emacs.d/ycmd/.ycm_extra_conf.py"))
+(defvar my:ycmd-global-config (expand-file-name "~/.emacs.d/ycmd/.ycm_extra_conf.py"))
 (defvar my:wakatime-api-key "73e20bd3-43b3-4b66-a844-6eadc178f039")
-(defvar my:wakatime-cli-path (expand-file-name "~/.anaconda3/lib/python3.7/site-packages/wakatime/cli.py"))
+(defvar my:wakatime-cli-path "WAKATIME_CLI")
 
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
