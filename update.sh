@@ -1,3 +1,5 @@
+#!/bin/bash
+
 cd ~/.emacs.d
 
 git reset --hard HEAD
