@@ -84,6 +84,7 @@ parseArguments
 git clone https://github.com/antolu/.emacs.d.git ~/.emacs.d
 
 cd ~/.emacs.d
+git checkout modular-install
 
 git submodule update --init --recursive
 
