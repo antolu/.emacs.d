@@ -30,7 +30,7 @@ function installPackages() {
     fi
 
     if [ $C ]; then
-	PKGINSTALL+=" gcc"
+	PKGINSTALL+=" gcc cmake"
     fi
 
     if [ $GO ]; then
@@ -52,7 +52,7 @@ function installPackages() {
 
 
 function parseArguments() {
-for key in $@
+for key in $@; do
     case $key in
         python)
             PYTHON=True
@@ -66,20 +66,16 @@ for key in $@
         java)
             JAVA=True
 	    ;;
-        matlab)
-            MATLAB=True
-	    ;;
-        yaml)
-            YAML=True
-	    ;;
         *)
 	    echo "Option ${key} unknown or not supported."
 	    ;;
     esac
-	done
+done
 }
 
-parseArguments
+echo $@
+
+parseArguments $@  
 
 git clone https://github.com/antolu/.emacs.d.git ~/.emacs.d
 
@@ -92,12 +88,12 @@ installPackages
 
 if [ $PYTHON ]; then 
     pip install jedi flake8 autopep8 black yapf wakatime
-    sed -i "/(custom-set-variables/i(load-user-file modules/python.el)" init.el
+    sed -i '/(custom-set-variables/i(load-user-file "modules/python.el")' init.el
 fi
 
 if [ $C ]; then
     YCMDOPTIONS+=" --clang-completer"
-    sed -i "/(custom-set-variables/i(load-user-file modules/C.el)" init.el
+    sed -i '/(custom-set-variables/i(load-user-file "modules/C.el")' init.el
 fi
 if [ $JAVA ]; then YCMDOPTIONS+="  --java-completer"; fi
 if [ $GO ]; then YCMDOPTIONS+=" --go-completer"; fi
@@ -106,7 +102,7 @@ if [ $C ] || [ $JAVA ] || [ $GO ]; then
     cd ycmd
     python3 build.py $YCMDOPTIONS
     cd ..
-    sed -i "/(custom-set-variables/i(load-user-file modules/ycmd.el)" init.el
+    sed -i '/(custom-set-variables/i(load-user-file "modules/ycmd.el")' init.el
 fi
 
 WAKATIME_CLI=`sudo find / -name cli.py | grep wakatime`
