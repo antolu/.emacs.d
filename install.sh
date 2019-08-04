@@ -5,10 +5,10 @@ function installPackages() {
     
     case $ID in
         arch)
-	    PKGINSTALL=sudo pacman -Sy --noconfirm --needed 
+	    PKGINSTALL="sudo pacman -Sy --noconfirm --needed" 
 	    ;;
 	ubuntu|debian)
-	    PKGINSTALL=sudo apt install -y
+	    PKGINSTALL="sudo apt install -y"
 	    ;;
     esac
 
@@ -47,7 +47,7 @@ function installPackages() {
 	esac
     fi
 
-    eval $PKGINSTALL
+    $PKGINSTALL
 
 }
 
@@ -80,8 +80,6 @@ for key in $@; do
     esac
 done
 }
-
-echo $@
 
 parseArguments $@  
 
