@@ -16,6 +16,7 @@ function installPackages() {
 	if [ -z `which python3` ]; then
 	    PKGINSTALL+=" python3 python3-pip"
 	fi
+	PKGINSTALL+=" cmake"
     fi
 
     if [ $JAVA ]; then
@@ -30,7 +31,7 @@ function installPackages() {
     fi
 
     if [ $C ]; then
-	PKGINSTALL+=" gcc cmake"
+	PKGINSTALL+=" gcc"
     fi
 
     if [ $GO ]; then
@@ -87,7 +88,7 @@ git submodule update --init --recursive
 installPackages
 
 if [ $PYTHON ]; then 
-    pip install jedi flake8 autopep8 black yapf wakatime
+    sudo pip install jedi flake8 autopep8 black yapf wakatime
     sed -i '/(custom-set-variables/i(load-user-file "modules/python.el")' init.el
 fi
 
