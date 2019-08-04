@@ -53,6 +53,13 @@ function installPackages() {
 
 
 function parseArguments() {
+if [ -z $@ ]; then
+    PYTHON=True
+    C=True
+    GO=True
+    JAVA=True
+    return
+fi    
 for key in $@; do
     case $key in
         python)
