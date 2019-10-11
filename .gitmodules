@@ -1,0 +1,6 @@
+[submodule "ycmd"]
+	path = ycmd
+	url = https://github.com/ycm-core/ycmd.git
+[submodule "use-package"]
+	path = use-package
+	url = https://github.com/jwiegley/use-package.git

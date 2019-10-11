@@ -22,8 +22,27 @@ There are two things you can do about this warning:
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
 (package-initialize)
 
+(eval-when-compile
+  ;; Following line is not needed if use-package.el is in ~/.emacs.d
+  (add-to-list 'load-path (expand-file-name "~/.emacs.d/use-package"))
+  (require 'use-package))
+
+
 (require 'use-package-ensure)
 (setq use-package-always-ensure t)
+
+(defconst user-init-dir
+  (cond ((boundp 'user-emacs-directory)
+         user-emacs-directory)
+        ((boundp 'user-init-directory)
+         user-init-directory)
+        (t "~/.emacs.d/")))
+
+
+(defun load-user-file (file)
+  (interactive "f")
+  "Load a file in current user's configuration directory"
+  (load-file (expand-file-name file user-init-dir)))
 
 
 (use-package wakatime-mode
@@ -44,40 +63,6 @@ There are two things you can do about this warning:
   (global-flycheck-mode)
   )
 
-(use-package modern-cpp-font-lock
-  :config (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-  )
-
-(use-package ycmd
-  :config
-  (set-variable 'ycmd-server-command my:ycmd-server-command)
-  (set-variable 'ycmd-global-config my:ycmd-global-config)
-  (global-ycmd-mode)
-  (setq ycmd-force-semantic-completion t)
-  (setq request-backend (quote url-retrieve))
-  (use-package company
-    :config
-    (global-company-mode)
-    (global-set-key (kbd "M-/") 'company-complete-common-or-cycle)
-    (setq company-idle-delay 0)
-  )
-  (use-package company-ycmd
-    :config
-    (company-ycmd-setup)
-    )
-  (use-package flycheck-ycmd
-    :init
-    (add-hook 'c-mode-common-hook 'flycheck-ycmd-setup)
-    )
-  (require 'ycmd-eldoc)
-  (add-hook 'ycmd-mode-hook 'ycmd-eldoc-setup)
-  )
-
-(use-package elpy
-  :init
-  (elpy-enable)
-)
-
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
@@ -86,6 +71,17 @@ There are two things you can do about this warning:
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
+(use-package yaml-mode
+	     :ensure t
+	     :mode (("\\.yaml\\'" . yaml-mode)
+		    ("\\.yml\\'" . yaml-mode))
+	     )
+
+(use-package matlab-mode
+	     :ensure t
+	     :mode (("\\.m\\'" . matlab-mode))
+	     )
+	     
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -101,8 +97,4 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
-
-(add-hook 'c++-mode-hook
-          (lambda () (setq flycheck-clang-include-path
-                           (list (expand-file-name "/opt/cxxtest/")))))
 
